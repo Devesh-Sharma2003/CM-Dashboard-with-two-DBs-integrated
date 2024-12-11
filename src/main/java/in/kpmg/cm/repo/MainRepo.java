@@ -19,19 +19,20 @@ public class MainRepo {
 
 	public List<Object[]> findHospitals() {
 
-		String sql = "SELECT ah.hosp_id, ah.hosp_name, ah.hosp_disp_code hs_code, case when ah.hosp_type = 'G'"
-				+ " then 'Government' else 'Corporate' end as hosp_type, ah.hosp_addr1 ||''|| ah.hosp_addr2 "
-				+ "||''|| ah.hosp_addr3 as hospital_address, al.lgd_code as state_id, al.loc_name as state_name,"
-				+ " DIS.LGD_CODE AS District_Code, DIS.LOC_NAME AS district_name, mand.lgd_code AS "
-				+ "hospital_mandal_code, mand.loc_name AS hospital_mandal, aeh.ge_code_latitude, "
-				+ "aeh.ge_code_longitude,ah.cug_no mithra_contact, ah.hosp_contact_no, "
-				+ "(SELECT LISTAGG(ash.speciality_id,',') WITHIN GROUP (ORDER BY ash.speciality_id) "
-				+ "FROM asrim_hosp_speciality ash WHERE ash.hosp_id = ah.hosp_id AND ash.phase_id = 6 "
-				+ "and ash.renewal = 10 AND ash.is_active_flg = 'Y') AS specialties FROM asrim_hospitals "
-				+ "ah left join asrit_empnl_hospinfo aeh on ah. HOSP_EMPNL_REF_NUM = aeh.hospinfo_id LEFT "
-				+ "JOIN asrim_locations DIS ON ah.dist_id = DIS.LOC_ID LEFT JOIN asrim_locations mand ON "
-				+ "mand.loc_id = aeh.mandal LEFT JOIN asrim_locations al on al.loc_id = dis.loc_parnt_id "
-				+ "where ah.hosp_active_yn = 'Y' ORDER BY DIS.LGD_CODE";
+		String sql = "SELECT ah.hosp_id, ah.hosp_name, ah.hosp_disp_code hs_code, CASE WHEN ah.hosp_type = 'G'"
+				+ " THEN 'Government' ELSE 'Corporate' END AS hosp_type, ah.hosp_addr1 || ' ' || ah.hosp_addr2 ||"
+				+ " ' ' || ah.hosp_addr3 AS hospital_address, al.lgd_code AS state_id, al.loc_name AS state_name, "
+				+ "DIS.LGD_CODE AS District_Code, DIS.LOC_NAME AS district_name, mand.lgd_code AS "
+				+ "hospital_mandal_code, mand.loc_name AS hospital_mandal, aeh.ge_code_latitude, aeh.ge_code_longitude,"
+				+ " (SELECT MAX(au.cug) FROM asrim_users au LEFT JOIN asrim_mit_users anu ON au.user_id = anu.user_id "
+				+ "WHERE anu.hosp_id = ah.hosp_id AND user_role = 'CD10'AND au.ACTIVE_YN = 'Y' AND eff_end_dt IS NULL)"
+				+ " mithra_contact, ah.hosp_contact_no, (SELECT LISTAGG(ash.speciality_id, ',') WITHIN GROUP "
+				+ "(ORDER BY ash.speciality_id) FROM asrim_hosp_speciality ash WHERE ash.hosp_id = ah.hosp_id AND"
+				+ " ash.phase_id=6 AND ash.renewal = 10 AND ash.is_active_flg = 'Y') AS specialties FROM "
+				+ "asrim_hospitals ah LEFT JOIN asrit_empnl_hospinfo aeh ON ah.HOSP_EMPNL_REF_NUM = aeh.hospinfo_id "
+				+ "LEFT JOIN asrim_locations DIS ON ah.dist_id = DIS.LOC_ID LEFT JOIN asrim_locations mand ON "
+				+ "mand.loc_id = aeh.mandal LEFT JOIN asrim_locations al ON al.loc_id = dis.loc_parnt_id WHERE "
+				+ "ah.hosp_active_yn = 'Y'";
 
 		Query query = entityManager.createNativeQuery(sql);
 		return query.getResultList(); // Returns List<Object[]>
