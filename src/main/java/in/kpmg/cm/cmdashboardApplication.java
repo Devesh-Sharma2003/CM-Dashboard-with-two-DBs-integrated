@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories("in.kpmg.cm.repo")
-public class CmdashboardApplication {
+public class cmdashboardApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CmdashboardApplication.class, args);
+		SpringApplication.run(cmdashboardApplication.class, args);
 	}
 
 }
