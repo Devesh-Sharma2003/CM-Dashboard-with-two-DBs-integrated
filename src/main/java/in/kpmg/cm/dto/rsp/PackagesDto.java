@@ -6,20 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class PackagesDto {
+
+public interface PackagesDto {
 	
-	private String surgeryCode;     
-    private String surgeryName;    
-    private String procedureCode;     
-    private String procedureName;    
-    private String procedureType;  
-    private String treatmentType;
-    private Character reservedCategory; 
-    private BigDecimal procedureAmount; 
-    private BigDecimal aasaraAmount;
+	String getsurgeryCode();     
+    String getsurgeryName();    
+    String getprocedureCode();     
+    String getprocedureName();    
+    String getprocedureType();  
+    String gettreatmentType();
+    Character getreservedCategory(); 
+    BigDecimal getprocedureAmount(); 
+    BigDecimal getaasaraAmount();
 
 
 }

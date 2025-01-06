@@ -4,27 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class HospitalDto {
+public interface HospitalDto {
 	
-	private String hospId;
-	private String hospName;
-	private String hsCode;
-	private String hospType;
-	private String hospitalAddress;
-	private Integer stateId;
-	private String stateName;
-	private Integer districtCode;
-	private String districtName;
-	private Integer hospitalMandalCode;
-	private String hospitalMandal;
-	private String geCodeLatitude;
-	private String geCodeLongitude;
-	private String mithraContact;
-	private String hospContactNo;
-	private String specialties;
+	 String gethospId();
+	 String gethospName();
+	 String gethsCode();
+	 String gethospType();
+	 String gethospitalAddress();
+	 Integer getstateId();
+	 String getstateName();
+	 Integer getdistrictCode();
+	 String getdistrictName();
+	 Integer gethospitalMandalCode();
+	 String gethospitalMandal();
+	 String getgeCodeLatitude();
+	 String getgeCodeLongitude();
+	 String getmithraContact();
+	 String gethospContactNo();
+	 String getspecialties();
 
 
 }

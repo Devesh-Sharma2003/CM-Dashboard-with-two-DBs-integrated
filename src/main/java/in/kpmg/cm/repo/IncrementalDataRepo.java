@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import in.kpmg.cm.dto.rsp.HealthcardResponseDto;
+import in.kpmg.cm.dto.rsp.HospitalDto;
 import in.kpmg.cm.dto.rsp.IncrementalResponseDto;
+import in.kpmg.cm.dto.rsp.PackagesDto;
 import in.kpmg.cm.dto.rsp.PreauthDetailsResponseDto;
 import in.kpmg.cm.dto.rsp.PreauthResponseDto;
 import in.kpmg.cm.models.AsritCaseModel;
@@ -111,6 +113,33 @@ public interface IncrementalDataRepo extends JpaRepository <AsritCaseModel, Stri
 			+ "    ac.cs_sbh_dt,\r\n"
 			+ "    ac.actual_clm_sub_dt", nativeQuery = true)
 	List<IncrementalResponseDto> getIncrementalData();
+	
+	@Query(value="SELECT ah.hosp_id AS hospId, ah.hosp_name AS hospName, ah.hosp_disp_code AS hsCode, CASE WHEN ah.hosp_type = 'G'\r\n"
+			+ "				 THEN 'Government' ELSE 'Corporate' END AS hospType, ah.hosp_addr1 || ' ' || ah.hosp_addr2 ||\r\n"
+			+ "				 ' ' || ah.hosp_addr3 AS hospitalAddress, al.lgd_code AS stateId, al.loc_name AS stateName, \r\n"
+			+ "				DIS.LGD_CODE AS districtCode, DIS.LOC_NAME AS districtName, mand.lgd_code AS \r\n"
+			+ "				hospitalMandalCode, mand.loc_name AS hospitalMandal, aeh.ge_code_latitude AS geCodeLatitude, aeh.ge_code_longitude AS geCodeLongitude,\r\n"
+			+ "				 (SELECT MAX(au.cug) FROM asrim_users au LEFT JOIN asrim_mit_users anu ON au.user_id = anu.user_id \r\n"
+			+ "				WHERE anu.hosp_id = ah.hosp_id AND user_role = 'CD10'AND au.ACTIVE_YN = 'Y' AND eff_end_dt IS NULL)\r\n"
+			+ "				 mithraContact, ah.hosp_contact_no AS hospContactNo, (SELECT LISTAGG(ash.speciality_id, ',') WITHIN GROUP \r\n"
+			+ "				(ORDER BY ash.speciality_id) FROM asrim_hosp_speciality ash WHERE ash.hosp_id = ah.hosp_id AND\r\n"
+			+ "				 ash.phase_id=6 AND ash.renewal = 10 AND ash.is_active_flg = 'Y') AS specialties FROM \r\n"
+			+ "				asrim_hospitals ah LEFT JOIN asrit_empnl_hospinfo aeh ON ah.HOSP_EMPNL_REF_NUM = aeh.hospinfo_id \r\n"
+			+ "				LEFT JOIN asrim_locations DIS ON ah.dist_id = DIS.LOC_ID LEFT JOIN asrim_locations mand ON \r\n"
+			+ "				mand.loc_id = aeh.mandal LEFT JOIN asrim_locations al ON al.loc_id = dis.loc_parnt_id WHERE \r\n"
+			+ "				ah.hosp_active_yn = 'Y'", nativeQuery = true)
+	List<HospitalDto> findHospitals();
+	
+	@Query(value="select adm.dis_main_id surgeryCode, ADM.DIS_MAIN_NAME surgeryName, as1.surgery_id\r\n"
+			+ "				 procedureCode, AS1.SURGERY_DESC procedureName, as1.proc_type procedureType, case when\r\n"
+			+ "				 upper(as1.dis_main_id) like 'S%' then 'Surgical' when upper(as1.dis_main_id) like 'M%' \r\n"
+			+ "				then 'Medical' end as treatmentType, CASE WHEN EXISTS (SELECT 1 FROM asrim_surg_phase asp2\r\n"
+			+ "				 WHERE asp2.surg_id = as1.surgery_id AND asp2.renewal = '10' AND asp2.govt_yn = 'Y') THEN\r\n"
+			+ "				 'Y' ELSE 'N' END AS reservedCategory, as1.surgery_amt procedureAmount,as1.postops_amt \r\n"
+			+ "				aasaraAmount from asrim_disease_main adm left join asrim_surgery as1 on as1.dis_main_id = \r\n"
+			+ "				adm.dis_main_id left join asrim_surg_phase asp on asp.surg_id = as1.surgery_id where \r\n"
+			+ "				asp.phase_id = 6 and asp.renewal = 10 order by adm.dis_main_id, as1.surgery_id", nativeQuery=true)
+	List<PackagesDto> findPackages();
 
 	
 	@Query(value ="SELECT DISTINCT \r\n"
@@ -354,5 +383,7 @@ public interface IncrementalDataRepo extends JpaRepository <AsritCaseModel, Stri
 			+ "    ah.hosp_type\r\n"
 			+ "order by ac.case_hosp_code",nativeQuery = true)
 	List<PreauthDetailsResponseDto> getPreauthDetailsData();
+	
+	
 
 }
