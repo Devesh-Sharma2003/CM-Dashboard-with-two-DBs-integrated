@@ -12,9 +12,9 @@ public interface PreauthDetailsResponseDto {
 	 String gethospType();
 	 String getspecialityCode();
 	 String gettotalPreauthsApproved();
-	 String gettotalPreauthsApprovedAmount();
+	 String getpreauthsApprovedAmount();
 	 String gettotalClaimsApproved();
-	 String gettotalClaimsApprovedAmount();
+	 String getclaimsPaidAmount();
 
 	
 }

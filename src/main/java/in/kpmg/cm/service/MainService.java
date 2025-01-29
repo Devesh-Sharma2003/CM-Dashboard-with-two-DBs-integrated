@@ -47,11 +47,10 @@ public class MainService {
     return results;
 	}
 	
-//	public List<IncrementalResponseDto> getIncrementHandler() {
-//		List<IncrementalResponseDto[]> results = incrementalDataRepo.getIncrementalData();
-//	    List<preauthDto> preatuhDtos = new ArrayList<>();
-//
-//	    return preatuhDtos;
-//	}
+	public List<IncrementalResponseDto> getIncrementHandler() {
+		List<IncrementalResponseDto> results = incrementalDataRepo.getIncrementalData();
+
+	    return results;
+	}
 	
 }

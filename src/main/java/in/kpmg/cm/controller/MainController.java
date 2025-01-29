@@ -68,16 +68,16 @@ public class MainController {
 					null, HttpStatus.BAD_REQUEST.value());
 		}
 	}
-//	@GetMapping("/incrementadata")
-//	public ApiResponse<?>IncrementHandler(){
-//		try {
-//			return new ApiResponse<>(true,"Details fetched successfully!",
-//					this.mainservice.getIncrementHandler(), HttpStatus.OK.value());
-//		}catch(Exception ex) {
-//			return new ApiResponse<>(false, "Something went wrong!",
-//					null, HttpStatus.BAD_REQUEST.value());
-//		}
-//	}
+	@GetMapping("/incrementalData")
+	public ApiResponse<?>IncrementHandler(){
+		try {
+			return new ApiResponse<>(true,"Details fetched successfully!",
+					this.mainservice.getIncrementHandler(), HttpStatus.OK.value());
+		}catch(Exception ex) {
+			return new ApiResponse<>(false, "Something went wrong!",
+					null, HttpStatus.BAD_REQUEST.value());
+		}
+	}
 	
 
 }
