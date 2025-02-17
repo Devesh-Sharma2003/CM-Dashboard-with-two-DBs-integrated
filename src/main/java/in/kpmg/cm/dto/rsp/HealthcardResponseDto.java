@@ -5,8 +5,8 @@ public interface HealthcardResponseDto {
 	 String getdistrictCode();
 	 String getnoOfHealthCards();
 	 String getnoOfBeneficiaries();
-	 String getsecretaryCode();
-	 String getsecretaryName();
-	 String getmandalCode();
-	 String getmandalName();
+//	 String getsecretaryCode();
+//	 String getsecretaryName();
+//	 String getmandalCode();
+//	 String getmandalName();
 }
