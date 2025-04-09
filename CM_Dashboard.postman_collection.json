@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "55a6398f-e1d7-44ab-ab74-cff74ef98d34",
+		"name": "CM Dashboard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38007767"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"abc123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/user/authenticate",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"user",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Hospital Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6MSwiZXhwIjoxNzQ0MjEwMzk3LCJpYXQiOjE3NDQyMDY3OTd9.i4U1W7_PSz3q5TbWniuBKGe-XaxZOMNzW76NKdUYBGLm9y8Tw1FmgPdxXv9CsFp3uRFEd7jJNqMy417oL_dUeg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/hospitals",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"hospitals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Procedure Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6MSwiZXhwIjoxNzM5ODY3MTE1LCJpYXQiOjE3Mzk4NjM1MTV9.8DB7cEbtJaTYP5V4oh_JavBoTlnED1-aSjm0KrH0tlPpv8XOPiPGxKpBOqAhLpE-0NqD_wrY3678uePUu4WJow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/procedures",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"procedures"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preauth Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6MSwiZXhwIjoxNzM5ODY3MTE1LCJpYXQiOjE3Mzk4NjM1MTV9.8DB7cEbtJaTYP5V4oh_JavBoTlnED1-aSjm0KrH0tlPpv8XOPiPGxKpBOqAhLpE-0NqD_wrY3678uePUu4WJow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/preauthdetails",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"preauthdetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "preauth statistics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6MSwiZXhwIjoxNzM5ODY3MTE1LCJpYXQiOjE3Mzk4NjM1MTV9.8DB7cEbtJaTYP5V4oh_JavBoTlnED1-aSjm0KrH0tlPpv8XOPiPGxKpBOqAhLpE-0NqD_wrY3678uePUu4WJow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/preauthstatistics",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"preauthstatistics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Incremental Data",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get health cards",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6MSwiZXhwIjoxNzM5ODYzODE5LCJpYXQiOjE3Mzk4NjAyMTl9.queTJM0HFLIOkwylBM8a1BmUfjXXPYNWXdVTxQ-nx7-0l6sN49a5ZmRvL0iEaPKrZN7i4PKfV7xt_8O30-qHeg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/healthcarddata",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"healthcarddata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AarogyaRakshaPreauthStatitisticsDaily",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat.drntrvaidyaseva.ap.gov.in/cm/aarogyaRakshaPreauthStatitisticsDaily",
+					"protocol": "https",
+					"host": [
+						"uat",
+						"drntrvaidyaseva",
+						"ap",
+						"gov",
+						"in"
+					],
+					"path": [
+						"cm",
+						"aarogyaRakshaPreauthStatitisticsDaily"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
