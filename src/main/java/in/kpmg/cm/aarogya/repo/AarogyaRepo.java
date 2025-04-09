@@ -1,0 +1,98 @@
+package in.kpmg.cm.aarogya.repo;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import in.kpmg.cm.aarogya.models.AsrimDropDownModel;
+import in.kpmg.cm.dto.rsp.AarogyaRakshaPreauthStatitisticsDailyDto;
+
+@Repository
+public interface AarogyaRepo extends JpaRepository <AsrimDropDownModel, String>{
+
+	@Query(value="WITH splty AS (\r\n"
+			+ "SELECT \r\n"
+			+ "DISTINCT acs.case_id, \r\n"
+			+ "MIN(acs.dis_main_code) AS dis_main_code\r\n"
+			+ "FROM asrit_case_surgery acs\r\n"
+			+ "GROUP BY acs.case_id\r\n"
+			+ "),\r\n"
+			+ "cte AS (    \r\n"
+			+ "SELECT\r\n"
+			+ "DISTINCT \r\n"
+			+ "TRUNC(SYSDATE) AS \"DATE\",\r\n"
+			+ "ac.case_hosp_code AS caseHospCode,\r\n"
+			+ "ah.hosp_name AS hospName,\r\n"
+			+ "dis.loc_id AS hospitalDistCode,\r\n"
+			+ "dis.loc_name AS hospitalDist,\r\n"
+			+ "mand.loc_id AS hospitalMandalCode,\r\n"
+			+ "mand.loc_name AS hospitalMandal,\r\n"
+			+ "splty.dis_main_code AS specialityCode,\r\n"
+			+ "CASE\r\n"
+			+ "WHEN ah.hosp_type = 'G' THEN 'Government'\r\n"
+			+ "WHEN ah.hosp_type = 'C' THEN 'Corporate'\r\n"
+			+ "END AS hospType,\r\n"
+			+ "SUM(\r\n"
+			+ "CASE\r\n"
+			+ "WHEN ac.cs_apprv_rej_dt IS NOT NULL AND ag.group_id = 'CD17' THEN 1\r\n"
+			+ "ELSE 0\r\n"
+			+ "END\r\n"
+			+ ") AS totalPreauthsApproved,\r\n"
+			+ "SUM(\r\n"
+			+ "CASE\r\n"
+			+ "WHEN ac.cs_apprv_rej_dt IS NOT NULL AND ag.group_id = 'CD17'\r\n"
+			+ "THEN DECODE(\r\n"
+			+ "acc.case_cmo_aprv_amt, \r\n"
+			+ "NULL, \r\n"
+			+ "DECODE(\r\n"
+			+ "acc.case_ceo_aprv_amt, \r\n"
+			+ "NULL, \r\n"
+			+ "acc.case_trust_aprv_amt, \r\n"
+			+ "0, \r\n"
+			+ "acc.case_trust_aprv_amt, \r\n"
+			+ "acc.case_ceo_aprv_amt\r\n"
+			+ "),\r\n"
+			+ "acc.case_cmo_aprv_amt\r\n"
+			+ ")\r\n"
+			+ "ELSE 0\r\n"
+			+ "END\r\n"
+			+ ") AS preauthApprovedAmount,\r\n"
+			+ "SUM(\r\n"
+			+ "CASE\r\n"
+			+ "WHEN ac.case_status = 'CD125' THEN 1\r\n"
+			+ "ELSE 0\r\n"
+			+ "END\r\n"
+			+ ") AS totalClaimsApproved,\r\n"
+			+ "    sum(CASE \r\n"
+			+ "        WHEN ac.case_status = 'CD125' AND ac.cs_apprv_rej_dt IS NOT NULL \r\n"
+			+ "        THEN acc.claim_amount \r\n"
+			+ "        ELSE 0 \r\n"
+			+ "    END) AS claimsPaidAmount\r\n"
+			+ "FROM \r\n"
+			+ "asrit_case ac\r\n"
+			+ "LEFT JOIN asrit_case_claim acc ON ac.case_id = acc.case_id\r\n"
+			+ "LEFT JOIN asrim_case_status_grp ag ON ac.case_status = ag.status_id\r\n"
+			+ "LEFT JOIN asrim_hospitals ah ON ah.hosp_id = ac.case_hosp_code\r\n"
+			+ "LEFT JOIN asrit_empnl_hospinfo aeh ON ah.HOSP_EMPNL_REF_NUM = aeh.hospinfo_id\r\n"
+			+ "LEFT JOIN asrim_locations dis ON dis.loc_id = ah.dist_id\r\n"
+			+ "LEFT JOIN asrim_locations mand ON mand.loc_id = aeh.mandal\r\n"
+			+ "LEFT JOIN splty ON splty.case_id = ac.case_id\r\n"
+			+ "WHERE \r\n"
+			+ "ag.group_id = 'CD17' \r\n"
+			+ "AND TRUNC(ac.cs_apprv_rej_dt) = TRUNC(SYSDATE)\r\n"
+			+ "GROUP BY\r\n"
+			+ "TRUNC(SYSDATE),\r\n"
+			+ "ac.case_hosp_code,\r\n"
+			+ "splty.dis_main_code,\r\n"
+			+ "ah.hosp_name,\r\n"
+			+ "dis.loc_id, dis.loc_name,\r\n"
+			+ "mand.loc_id, mand.loc_name,\r\n"
+			+ "ah.hosp_type\r\n"
+			+ ")\r\n"
+			+ "SELECT *\r\n"
+			+ "FROM cte", nativeQuery = true)
+	List<AarogyaRakshaPreauthStatitisticsDailyDto> getAarogyaRakshaPreauthStatitisticsDaily();
+
+}

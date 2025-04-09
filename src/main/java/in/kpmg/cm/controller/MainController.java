@@ -68,11 +68,23 @@ public class MainController {
 					null, HttpStatus.BAD_REQUEST.value());
 		}
 	}
+	
 	@GetMapping("/incrementalData")
-	public ApiResponse<?>IncrementHandler(){
+	public ApiResponse<?> incrementHandler(){
 		try {
 			return new ApiResponse<>(true,"Details fetched successfully!",
 					this.mainservice.getIncrementHandler(), HttpStatus.OK.value());
+		}catch(Exception ex) {
+			return new ApiResponse<>(false, "Something went wrong!",
+					null, HttpStatus.BAD_REQUEST.value());
+		}
+	}
+	
+	@GetMapping("/aarogyaRakshaPreauthStatitisticsDaily")
+	public ApiResponse<?> getAarogyaRakshaPreauthStatitisticsDaily(){
+		try {
+			return new ApiResponse<>(true,"Details fetched successfully!",
+					this.mainservice.getAarogyaRakshaPreauthStatitisticsDailyHandler(), HttpStatus.OK.value());
 		}catch(Exception ex) {
 			return new ApiResponse<>(false, "Something went wrong!",
 					null, HttpStatus.BAD_REQUEST.value());

@@ -1,4 +1,4 @@
-package in.kpmg.cm.repo;
+package in.kpmg.cm.argsri.repo;
 
 import java.util.List;
 
@@ -6,16 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import in.kpmg.cm.argsri.models.AsritCaseModel;
 import in.kpmg.cm.dto.rsp.HealthcardResponseDto;
 import in.kpmg.cm.dto.rsp.HospitalDto;
 import in.kpmg.cm.dto.rsp.IncrementalResponseDto;
 import in.kpmg.cm.dto.rsp.PackagesDto;
 import in.kpmg.cm.dto.rsp.PreauthDetailsResponseDto;
 import in.kpmg.cm.dto.rsp.PreauthResponseDto;
-import in.kpmg.cm.models.AsritCaseModel;
 
 @Repository
-public interface IncrementalDataRepo extends JpaRepository <AsritCaseModel, String> {
+public interface ArgsriRepo extends JpaRepository <AsritCaseModel, String> {
 
 	@Query(value = "SELECT \r\n"
 			+ "    ap.ration_card_no rationCardNo, \r\n"
